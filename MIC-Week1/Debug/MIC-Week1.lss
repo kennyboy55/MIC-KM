@@ -3,29 +3,29 @@ MIC-Week1.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800100  00800100  00000136  2**0
+  0 .data         00000000  00800100  00800100  0000013e  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         000000e2  00000000  00000000  00000054  2**1
+  1 .text         000000ea  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  00000136  2**0
+  2 .comment      00000030  00000000  00000000  0000013e  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000168  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000170  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000030  00000000  00000000  000001a4  2**0
+  4 .debug_aranges 00000040  00000000  00000000  000001ac  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   000001bc  00000000  00000000  000001d4  2**0
+  5 .debug_info   00000242  00000000  00000000  000001ec  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000138  00000000  00000000  00000390  2**0
+  6 .debug_abbrev 00000161  00000000  00000000  0000042e  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   0000016b  00000000  00000000  000004c8  2**0
+  7 .debug_line   000001cf  00000000  00000000  0000058f  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000044  00000000  00000000  00000634  2**2
+  8 .debug_frame  00000070  00000000  00000000  00000760  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00000184  00000000  00000000  00000678  2**0
+  9 .debug_str    00000194  00000000  00000000  000007d0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    0000006a  00000000  00000000  000007fc  2**0
+ 10 .debug_loc    000000cf  00000000  00000000  00000964  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000020  00000000  00000000  00000866  2**0
+ 11 .debug_ranges 00000030  00000000  00000000  00000a33  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -109,30 +109,24 @@ Disassembly of section .text:
   92:	d0 e1       	ldi	r29, 0x10	; 16
   94:	de bf       	out	0x3e, r29	; 62
   96:	cd bf       	out	0x3d, r28	; 61
-  98:	1e d0       	rcall	.+60     	; 0xd6 <main>
-  9a:	21 c0       	rjmp	.+66     	; 0xde <_exit>
+  98:	1f d0       	rcall	.+62     	; 0xd8 <main>
+  9a:	25 c0       	rjmp	.+74     	; 0xe6 <_exit>
 
 0000009c <__bad_interrupt>:
   9c:	b1 cf       	rjmp	.-158    	; 0x0 <__vectors>
 
 0000009e <wait>:
-				clock value is set. This is used by _delay_ms inside
-				util/delay.h
-Version :    	DMK, Initial code
-*******************************************************************/
+void opgave1(void)
 {
-	for (int i=0; i<ms; i++)
+	PORTD = 0b10000000;
+	wait( 500 );
+	PORTD = 0b01000000;
+	wait ( 500 );
   9e:	18 16       	cp	r1, r24
   a0:	19 06       	cpc	r1, r25
   a2:	6c f4       	brge	.+26     	; 0xbe <wait+0x20>
   a4:	20 e0       	ldi	r18, 0x00	; 0
   a6:	30 e0       	ldi	r19, 0x00	; 0
-	#else
-		//round up by default
-		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
-	#endif
-
-	__builtin_avr_delay_cycles(__ticks_dc);
   a8:	ef ec       	ldi	r30, 0xCF	; 207
   aa:	f7 e0       	ldi	r31, 0x07	; 7
   ac:	31 97       	sbiw	r30, 0x01	; 1
@@ -146,47 +140,65 @@ Version :    	DMK, Initial code
   bc:	a9 f7       	brne	.-22     	; 0xa8 <wait+0xa>
   be:	08 95       	ret
 
-000000c0 <opgave1>:
-	return 1;
+000000c0 <opgave4>:
 }
 
-void opgave1(void)
+void opgave4(void)
 {
-	PORTD = 0b10000000;
-  c0:	80 e8       	ldi	r24, 0x80	; 128
-  c2:	82 bb       	out	0x12, r24	; 18
-	wait( 500 );
-  c4:	84 ef       	ldi	r24, 0xF4	; 244
-  c6:	91 e0       	ldi	r25, 0x01	; 1
-  c8:	ea df       	rcall	.-44     	; 0x9e <wait>
-	PORTD = 0b01000000;
-  ca:	80 e4       	ldi	r24, 0x40	; 64
-  cc:	82 bb       	out	0x12, r24	; 18
-	wait ( 500 );
-  ce:	84 ef       	ldi	r24, 0xF4	; 244
-  d0:	91 e0       	ldi	r25, 0x01	; 1
-  d2:	e5 cf       	rjmp	.-54     	; 0x9e <wait>
-  d4:	08 95       	ret
+	wait( 50 );
+  c0:	82 e3       	ldi	r24, 0x32	; 50
+  c2:	90 e0       	ldi	r25, 0x00	; 0
+  c4:	ec df       	rcall	.-40     	; 0x9e <wait>
+	if (PORTC>= 0x80)
+  c6:	af 9b       	sbis	0x15, 7	; 21
+  c8:	03 c0       	rjmp	.+6      	; 0xd0 <opgave4+0x10>
+	{
+		PORTC= 0x1;
+  ca:	81 e0       	ldi	r24, 0x01	; 1
+  cc:	85 bb       	out	0x15, r24	; 21
+  ce:	08 95       	ret
+	}
+	else
+	{
+		PORTC = (PORTC<<1);
+  d0:	85 b3       	in	r24, 0x15	; 21
+  d2:	88 0f       	add	r24, r24
+  d4:	85 bb       	out	0x15, r24	; 21
+  d6:	08 95       	ret
 
-000000d6 <main>:
+000000d8 <main>:
 	}
 }
 
 int main(void)
 {
-	DDRD = 0b11111111;			// All pins PORTD are set to output
-  d6:	8f ef       	ldi	r24, 0xFF	; 255
-  d8:	81 bb       	out	0x11, r24	; 17
+	DDRD = 0b00000000; //input
+  d8:	11 ba       	out	0x11, r1	; 17
+	DDRC = 0b11111111; //output
+  da:	8f ef       	ldi	r24, 0xFF	; 255
+  dc:	84 bb       	out	0x14, r24	; 20
 
+	//Alleen voor opgave 4
+	PORTC = 0x1;
+  de:	81 e0       	ldi	r24, 0x01	; 1
+  e0:	85 bb       	out	0x15, r24	; 21
 	while (1)
 	{
-		opgave1( );
-  da:	f2 df       	rcall	.-28     	; 0xc0 <opgave1>
+		//opgave1();
+		//opgave2();
+		//opgave3();
+		opgave4();
+  e2:	ee df       	rcall	.-36     	; 0xc0 <opgave4>
+		if( (PIND) != 0 )
+		{
+			speaker( PIND );
+		}
+		*/
 	}
-  dc:	fe cf       	rjmp	.-4      	; 0xda <main+0x4>
+  e4:	fe cf       	rjmp	.-4      	; 0xe2 <main+0xa>
 
-000000de <_exit>:
-  de:	f8 94       	cli
+000000e6 <_exit>:
+  e6:	f8 94       	cli
 
-000000e0 <__stop_program>:
-  e0:	ff cf       	rjmp	.-2      	; 0xe0 <__stop_program>
+000000e8 <__stop_program>:
+  e8:	ff cf       	rjmp	.-2      	; 0xe8 <__stop_program>

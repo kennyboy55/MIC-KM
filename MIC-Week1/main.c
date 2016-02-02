@@ -30,14 +30,37 @@ Version :    	DMK, Initial code
 
 int main(void)
 {
-	DDRD = 0b11111111;			// All pins PORTD are set to output
+	DDRD = 0b00000000; //input
+	DDRC = 0b11111111; //output
+
+	//Alleen voor opgave 4
+	PORTC = 0x1;
 
 	while (1)
 	{
-		opgave1( );
+		//opgave1();
+		//opgave2();
+		//opgave3();
+		opgave4();
+
+		/*
+		if( (PIND) != 0 )
+		{
+			speaker( PIND );
+		}
+		*/
 	}
 
 	return 1;
+}
+
+void speaker(int i)
+{
+	//PORTC moet hiervoor output zijn en PORTD input
+	PORTC = 0b01010101;
+	wait( i );
+	PORTC = 0b00000000;
+	wait( i );
 }
 
 void opgave1(void)
@@ -46,5 +69,18 @@ void opgave1(void)
 	wait( 500 );
 	PORTD = 0b01000000;
 	wait ( 500 );
+}
+
+void opgave4(void)
+{
+	wait( 50 );
+	if (PORTC>= 0x80)
+	{
+		PORTC= 0x1;
+	}
+	else
+	{
+		PORTC = (PORTC<<1);
+	}
 }
 
