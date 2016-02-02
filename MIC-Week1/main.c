@@ -6,9 +6,13 @@
  */ 
 
 #define F_CPU 8000000UL
+#define NELEMS(x)  (sizeof(x) / sizeof(x[0]))
 
+#include <avr/interrupt.h>
 #include <avr/io.h>
 #include <util/delay.h>
+
+int reset = 0;
 
 /******************************************************************/
 void wait( int ms )
@@ -24,42 +28,116 @@ Version :    	DMK, Initial code
 {
 	for (int i=0; i<ms; i++)
 	{
+		if(reset == 1)
+		{
+			reset = 0;
+			return;
+		}
+
 		_delay_ms( 1 );		// library function (max 30 ms at 8MHz)
 	}
 }
 
+typedef struct {
+	unsigned char data;
+	unsigned int delay ;
+} PATTERN_STRUCT;
+
+PATTERN_STRUCT pattern[] = {
+	{0x00, 100}, {0x01, 100}, {0x02, 100}, {0x04, 100}, {0x10, 100}, {0x20, 100}, {0x40, 100}, {0x80, 100},
+	{0x00, 100},
+	{0xAA,  50}, {0x55,  50},
+	{0xAA,  50}, {0x55,  50},
+	{0xAA,  50}, {0x55,  50},
+	{0x00, 100},
+	{0x81, 100}, {0x42, 100}, {0x24, 100}, {0x18, 100}, {0x0F, 200}, {0xF0, 200}, {0x0F, 200}, {0xF0, 200},
+	{0x00, 0x00}
+};
+
+int count = 0;
+int speed = 1;
+int blink = 1000;
+int b1 = 0;
+int b2 = 0;
+
+ISR(TIMER0_OVF_vect) {
+
+		if( (0b00000001 & PINC) != 0  && b1 == 0)
+		{
+			blink = blink*2;
+			reset = 1;
+			b1 = 1;
+		}
+
+		if( (0b00000010 & PINC) != 0 && b2 == 0 )
+		{
+			blink = blink/2;
+			reset = 1;
+			b2 = 1;
+		}
+
+		if( PINC == 0)
+		{
+			b1 = 0;
+			b2 = 0;
+		}
+
+		if(blink < 20)
+		{
+			blink = 20;
+		}
+		else if(blink > 4000)
+		{
+			blink = 4000;
+		}
+}
+
 int main(void)
 {
-	DDRD = 0b00000000; //input
-	DDRC = 0b11111111; //output
+	DDRC = 0b00000000; //input
+	DDRD = 0b11111111; //output
+
+	 // Prescaler = FCPU/8000000
+	 TCCR0 |= (1 << CS01) | (1 << CS00);
+	 //Enable Overflow Interrupt Enable
+	 TIMSK|=(1<<TOIE0);
+	 //Initialize Counter
+	 TCNT0=0;
+
+	sei();
 
 	//Alleen voor opgave 4
-	PORTC = 0x1;
+	//PORTC = 0x1;
 
 	while (1)
 	{
 		//opgave1();
 		//opgave2();
 		//opgave3();
-		opgave4();
+		//opgave4();
+		//opgave5();
+		opgave6();
 
-		/*
-		if( (PIND) != 0 )
-		{
-			speaker( PIND );
-		}
-		*/
+		//extraopgave();
 	}
 
 	return 1;
 }
 
+void extraopgave(void)
+{
+	if( (PINC) != 0 )
+	{
+		speaker( PINC );
+	}
+}
+
 void speaker(int i)
 {
-	//PORTC moet hiervoor output zijn en PORTD input
-	PORTC = 0b01010101;
+	//PORTD moet hiervoor output zijn en PORTC input
+	PORTD = 0b01010101;
 	wait( i );
-	PORTC = 0b00000000;
+	PORTD = 0b00000000;
 	wait( i );
 }
 
@@ -71,16 +149,54 @@ void opgave1(void)
 	wait ( 500 );
 }
 
+void opgave3(void)
+{
+	if( (0b00000001 & PINC) != 0  )
+	{
+	   PORTD = 0b10000000;
+	   wait( 100 );
+	   PORTD = 0b00000000;
+	   wait( 100 );  
+	}
+}
+
 void opgave4(void)
 {
 	wait( 50 );
-	if (PORTC>= 0x80)
+	if (PORTD>= 0x80)
 	{
-		PORTC= 0x1;
+		PORTD= 0x1;
 	}
 	else
 	{
-		PORTC = (PORTC<<1);
+		PORTD = (PORTD<<1);
 	}
+}
+
+void opgave5(void)
+{
+	if(PINC != 0 )
+	{
+		speed = PINC;
+	}
+
+	// Write data to PORTD
+	PORTD = pattern[count].data;
+	// wait
+	wait(pattern[count].delay * speed);
+
+	count++;
+	if(count >= NELEMS(pattern))
+	{
+		count = 0;
+	}
+}
+
+void opgave6(void)
+{
+	PORTD = 0b10000000;
+	wait( blink );
+	PORTD = 0b00000000;
+	wait( blink );
 }
 
