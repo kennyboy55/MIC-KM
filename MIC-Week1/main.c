@@ -32,17 +32,19 @@ int main(void)
 {
 	DDRD = 0b11111111;			// All pins PORTD are set to output
 
-	PORTD = 0b00000001;
-
 	while (1)
 	{
-		PORTD = 0b10000000; 
-		wait( 500 );
-		PORTD = 0b01000000;
-		wait ( 500 );
-		
+		opgave1( );
 	}
 
 	return 1;
+}
+
+void opgave1(void)
+{
+	PORTD = 0b10000000;
+	wait( 500 );
+	PORTD = 0b01000000;
+	wait ( 500 );
 }
 

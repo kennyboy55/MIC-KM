@@ -236,8 +236,10 @@ END GROUP
  *(.text.*)
  .text.wait     0x0000009e       0x22 main.o
                 0x0000009e                wait
- .text.main     0x000000c0       0x1e main.o
-                0x000000c0                main
+ .text.opgave1  0x000000c0       0x16 main.o
+                0x000000c0                opgave1
+ .text.main     0x000000d6        0x8 main.o
+                0x000000d6                main
                 0x000000de                . = ALIGN (0x2)
  *(.fini9)
  .fini9         0x000000de        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr51\libgcc.a(_exit.o)
@@ -354,34 +356,34 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000       0x28
+.debug_aranges  0x00000000       0x30
  *(.debug_aranges)
  .debug_aranges
-                0x00000000       0x28 main.o
+                0x00000000       0x30 main.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0x17b
+.debug_info     0x00000000      0x1bc
  *(.debug_info .gnu.linkonce.wi.*)
- .debug_info    0x00000000      0x17b main.o
+ .debug_info    0x00000000      0x1bc main.o
 
-.debug_abbrev   0x00000000      0x115
+.debug_abbrev   0x00000000      0x138
  *(.debug_abbrev)
- .debug_abbrev  0x00000000      0x115 main.o
+ .debug_abbrev  0x00000000      0x138 main.o
 
-.debug_line     0x00000000      0x173
+.debug_line     0x00000000      0x16b
  *(.debug_line .debug_line.* .debug_line_end)
- .debug_line    0x00000000      0x173 main.o
+ .debug_line    0x00000000      0x16b main.o
 
-.debug_frame    0x00000000       0x34
+.debug_frame    0x00000000       0x44
  *(.debug_frame)
- .debug_frame   0x00000000       0x34 main.o
+ .debug_frame   0x00000000       0x44 main.o
 
-.debug_str      0x00000000      0x17c
+.debug_str      0x00000000      0x184
  *(.debug_str)
- .debug_str     0x00000000      0x17c main.o
-                                0x1b0 (size before relaxing)
+ .debug_str     0x00000000      0x184 main.o
+                                0x1b8 (size before relaxing)
 
 .debug_loc      0x00000000       0x6a
  *(.debug_loc)
@@ -405,9 +407,9 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000       0x18
+.debug_ranges   0x00000000       0x20
  *(.debug_ranges)
- .debug_ranges  0x00000000       0x18 main.o
+ .debug_ranges  0x00000000       0x20 main.o
 
 .debug_macro
  *(.debug_macro)
