@@ -59,6 +59,7 @@ int speed = 1;
 int blink = 1000;
 int b1 = 0;
 int b2 = 0;
+int direction = 0;
 
 ISR(TIMER0_OVF_vect) {
 
@@ -107,18 +108,18 @@ int main(void)
 	sei();
 
 	//Alleen voor opgave 4
-	//PORTC = 0x1;
+	PORTD = 0x1;
 
 	while (1)
 	{
 		//opgave1();
 		//opgave2();
 		//opgave3();
-		//opgave4();
+		opgave4();
 		//opgave5();
 		//opgave6();
 
-		charlieplexing();
+		//charlieplexing();
 
 		//extraopgave();
 	}
@@ -167,12 +168,18 @@ void opgave4(void)
 	wait( 50 );
 	if (PORTD>= 0x80)
 	{
-		PORTD= 0x1;
+		direction = 1;
 	}
-	else
+	else if (PORTD <= 0x1)
 	{
-		PORTD = (PORTD<<1);
+		direction = 0;
 	}
+
+	if(direction)
+	PORTD = (PORTD>>1);
+	else
+	PORTD = (PORTD<<1);
+
 }
 
 void opgave5(void)
