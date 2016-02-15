@@ -97,7 +97,7 @@ int main(void)
 	DDRC = 0b00000000; //input
 	DDRD = 0b11111111; //output
 
-	 // Prescaler = FCPU/8000000
+	 // Prescaler
 	 TCCR0 |= (1 << CS01) | (1 << CS00);
 	 //Enable Overflow Interrupt Enable
 	 TIMSK|=(1<<TOIE0);
@@ -116,7 +116,9 @@ int main(void)
 		//opgave3();
 		//opgave4();
 		//opgave5();
-		opgave6();
+		//opgave6();
+
+		charlieplexing();
 
 		//extraopgave();
 	}
@@ -200,3 +202,47 @@ void opgave6(void)
 	wait( blink );
 }
 
+void charlieplexing(void)
+{
+	//Button C0
+	if( (0b00000001 & PINC) != 0)
+	{
+		DDRD =  0b00000011; //PIN 1 & 2 as output. Pin 3 as input (TRI-STATE) 
+		PORTD = 0b00000001; //PIN 1 High, PIN 2 Low
+	}
+
+	//Button C1
+	else if( (0b00000010 & PINC) != 0)
+	{
+		DDRD =  0b00000011; //PIN 1 & 2 as output. Pin 3 as input (TRI-STATE)
+		PORTD = 0b00000010; //PIN 2 High, PIN 1 Low
+	}
+
+	//Button C2
+	else if( (0b00000100 & PINC) != 0)
+	{
+		DDRD =  0b00000110; //PIN 2 & 3 as output. Pin 1 as input (TRI-STATE)
+		PORTD = 0b00000010; //PIN 2 High, PIN 3 Low
+	}
+
+	//Button C3
+	else if( (0b00001000 & PINC) != 0)
+	{
+		DDRD =  0b00000110; //PIN 2 & 3 as output. Pin 1 as input (TRI-STATE)
+		PORTD = 0b00000100; //PIN 3 High, PIN 2 Low
+	}
+
+	//Button C4
+	else if( (0b00010000 & PINC) != 0)
+	{
+		DDRD =  0b00000101; //PIN 3 & 1 as output. Pin 2 as input (TRI-STATE)
+		PORTD = 0b00000100; //PIN 3 High, PIN 1 Low
+	}
+
+	//Button C5
+	else if( (0b00100000 & PINC) != 0)
+	{
+		DDRD =  0b00000101; //PIN 3 & 1 as output. Pin 2 as input (TRI-STATE)
+		PORTD = 0b00000001; //PIN 1 High, PIN 3 Low
+	}
+}
