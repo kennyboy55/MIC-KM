@@ -112,8 +112,8 @@ int main(void)
 		//opgave2();
 		//opgave3();
 		//opgave4();
-		//opgave5();
-		opgave6();
+		opgave5();
+		//opgave6();
 
 		//charlieplexing();
 
