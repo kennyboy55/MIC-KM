@@ -15,11 +15,16 @@
 ** -------------------------------------------------------------------------*/
 
 #define F_CPU 8000000UL //CPU op 8MHz
+#define NELEMS(x)  (sizeof(x) / sizeof(x[0])) //Geeft het aantal elementen uit een array terug.
+
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
 
 int opdr;
+int count = 0; //Counter voor opgave 4 om bij te houden bij welke pattern in de array hij is
+int speed = 1; //De snelheid voor opgave 4 van de patronen
+
 /******************************************************************/
 void wait( int ms )
 /* 
@@ -56,6 +61,34 @@ char data[16] = {		//segment display
 	0b01111001, // E
 	0b01110001 // F
 };
+
+//Struct voor een pattroon. Eerste onderdeel is welke ledjes aan moeten staan, tweede hoelang deze dan aan moeten staan
+typedef struct {
+	unsigned char data;
+	unsigned int delay ;
+} PATTERN_STRUCT;
+
+//PIN 0 == SEG A
+//PIN 1 == SEG B
+//PIN 2 == SEG C
+//PIN 3 == SEG D
+//PIN 4 == SEG E
+//PIN 5 == SEG F
+//PIN 6 == SEG G
+//PIN 7 == SEG DP
+
+//Array van patronen die elkaar opvolgen.
+PATTERN_STRUCT pattern[] = {
+	{0b00000001, 100}, {0b00000010, 100}, {0b00000100, 100}, {0b00001000, 100}, {0b00010000, 100}, {0b00100000, 100}, {0b00000001, 100},
+	{0b00100000, 100}, {0b00010000, 100}, {0b00001000, 100}, {0b00000100, 100}, {0b00000010, 100}, {0b00000001, 100},
+	{0b00000001, 100}, {0b01000000, 100}, {0b00001000, 100}, //omlaag
+	{0b00001000, 100}, {0b01000000, 100}, {0b00000001, 100}, //omhoog
+	{0b00000001, 100}, {0b01000000, 100}, {0b00001000, 100}, //omlaag
+	{0b00001000, 100}, {0b01001000, 100}, {0b00001001, 100}, //omhoog
+	{0b00001001, 100}, {0b00010010, 100}, {0b00100100, 100}, {0b00001001, 100}, {0b00010010, 100}, {0b00100100, 100}, {0b00001001, 100},
+	{0b00001001, 100}, {0b01000001, 100}, {0b00000001, 100}
+};
+
 
 /******************************************************************/
 ISR( INT0_vect ) //powerpointopg
@@ -126,7 +159,8 @@ Version :    	DMK, Initial code
 {
 	//powerpointOpg();
 	//opgave2();
-	opgave3();
+	//opgave3();
+	opgave4();
 
 	return 1;
 }
@@ -202,24 +236,70 @@ void opgave3()
 
 	while(1)
 	{
-		if(0b00000001 & PINC == 0b00000001)
+		wait(150);
+
+		//Button C0 & C1
+		if( (0x03 & PINC) == 0x03)
+		{
+			count = 0;
+		}
+		//Button C0
+		else if( (0x01 & PINC) != 0)
 		{
 			count++;
 		}
-		else if(0b00000010 & PINC == 0b00000010)
+		//Button C1
+		else if( (0x02 & PINC) != 0)
 		{
 			count--;
 		}
 
 		if(count > 15)
-			display(14);
+		{
+			display(14, 1);
+			count = 16;
+		}
 		else if(count < 0)
-			display(14);
+		{
+			display(14, 1);
+			count = -1;
+		}
 		else
-			display(count);
+			display(count, 0);
 	}
 }
-void display(int d)
+void display(int d, int dot)
 {
-	PORTD = data[d];
+	if(dot)
+		PORTD = data[d] | 0b10000000;
+	else
+		PORTD = data[d];
+}
+
+void opgave4(void)
+{
+	DDRD = 0xFF;
+	DDRC = 0x00;
+
+	while(1)
+	{
+		//Als een knop ingedrukt wordt, wordt de waarde daarvan de snelheid. Werkt niet met system interrupts, dus je moet de knop soms ingedrukt houden
+		if(PINC != 0 )
+		{
+			speed = PINC;
+		}
+
+		//Schrijf de data van het huidige patroon naar PORTD
+		PORTD = pattern[count].data;
+		//Wacht het aantal milliseconde dat in het huidige patroon staat
+		wait(pattern[count].delay * speed);
+
+		count++; //patroon verder
+
+		//als alle patronen geweest zijn, opnieuw beginnen
+		if(count >= NELEMS(pattern))
+		{
+			count = 0;
+		}
+	}
 }
