@@ -3,31 +3,31 @@ MIC-Week1.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000050  00800100  00000296  0000032a  2**0
+  0 .data         00000002  00800100  0000022a  000002be  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00000296  00000000  00000000  00000094  2**1
+  1 .text         0000022a  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          00000008  00800150  00800150  0000037a  2**0
+  2 .bss          00000006  00800102  00800102  000002c0  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  0000037a  2**0
+  3 .comment      00000030  00000000  00000000  000002c0  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000003ac  2**2
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000002f0  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000070  00000000  00000000  000003e8  2**0
+  5 .debug_aranges 00000070  00000000  00000000  0000032c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00000422  00000000  00000000  00000458  2**0
+  6 .debug_info   00000422  00000000  00000000  0000039c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 000001e3  00000000  00000000  0000087a  2**0
+  7 .debug_abbrev 000001e3  00000000  00000000  000007be  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000003ce  00000000  00000000  00000a5d  2**0
+  8 .debug_line   000003ce  00000000  00000000  000009a1  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000000ec  00000000  00000000  00000e2c  2**2
+  9 .debug_frame  000000ec  00000000  00000000  00000d70  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    0000022b  00000000  00000000  00000f18  2**0
+ 10 .debug_str    0000022b  00000000  00000000  00000e5c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000163  00000000  00000000  00001143  2**0
+ 11 .debug_loc    00000163  00000000  00000000  00001087  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000060  00000000  00000000  000012a6  2**0
+ 12 .debug_ranges 00000060  00000000  00000000  000011ea  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -116,20 +116,20 @@ Disassembly of section .text:
   98:	11 e0       	ldi	r17, 0x01	; 1
   9a:	a0 e0       	ldi	r26, 0x00	; 0
   9c:	b1 e0       	ldi	r27, 0x01	; 1
-  9e:	e6 e9       	ldi	r30, 0x96	; 150
+  9e:	ea e2       	ldi	r30, 0x2A	; 42
   a0:	f2 e0       	ldi	r31, 0x02	; 2
   a2:	00 e0       	ldi	r16, 0x00	; 0
   a4:	0b bf       	out	0x3b, r16	; 59
   a6:	02 c0       	rjmp	.+4      	; 0xac <__do_copy_data+0x14>
   a8:	07 90       	elpm	r0, Z+
   aa:	0d 92       	st	X+, r0
-  ac:	a0 35       	cpi	r26, 0x50	; 80
+  ac:	a2 30       	cpi	r26, 0x02	; 2
   ae:	b1 07       	cpc	r27, r17
   b0:	d9 f7       	brne	.-10     	; 0xa8 <__do_copy_data+0x10>
 
 000000b2 <__do_clear_bss>:
   b2:	21 e0       	ldi	r18, 0x01	; 1
-  b4:	a0 e5       	ldi	r26, 0x50	; 80
+  b4:	a2 e0       	ldi	r26, 0x02	; 2
   b6:	b1 e0       	ldi	r27, 0x01	; 1
   b8:	01 c0       	rjmp	.+2      	; 0xbc <.do_clear_bss_start>
 
@@ -137,40 +137,40 @@ Disassembly of section .text:
   ba:	1d 92       	st	X+, r1
 
 000000bc <.do_clear_bss_start>:
-  bc:	a8 35       	cpi	r26, 0x58	; 88
+  bc:	a8 30       	cpi	r26, 0x08	; 8
   be:	b2 07       	cpc	r27, r18
   c0:	e1 f7       	brne	.-8      	; 0xba <.do_clear_bss_loop>
-  c2:	d8 d0       	rcall	.+432    	; 0x274 <main>
-  c4:	e6 c0       	rjmp	.+460    	; 0x292 <_exit>
+  c2:	a2 d0       	rcall	.+324    	; 0x208 <main>
+  c4:	b0 c0       	rjmp	.+352    	; 0x226 <_exit>
 
 000000c6 <__bad_interrupt>:
   c6:	9c cf       	rjmp	.-200    	; 0x0 <__vectors>
 
 000000c8 <wait>:
-	}
+	count++; //patroon verder
 
-	if(direction)
-	PORTD = (PORTD>>1); //Naar een hogere waarde shiften
-	else
-	PORTD = (PORTD<<1); //Naar een lagere waarde shiften
+	//als alle patronen geweest zijn, opnieuw beginnen
+	if(count >= NELEMS(pattern))
+	{
+		count = 0;
   c8:	18 16       	cp	r1, r24
   ca:	19 06       	cpc	r1, r25
   cc:	0c f5       	brge	.+66     	; 0x110 <wait+0x48>
-  ce:	20 91 56 01 	lds	r18, 0x0156
-  d2:	30 91 57 01 	lds	r19, 0x0157
+  ce:	20 91 06 01 	lds	r18, 0x0106
+  d2:	30 91 07 01 	lds	r19, 0x0107
   d6:	21 30       	cpi	r18, 0x01	; 1
   d8:	31 05       	cpc	r19, r1
   da:	51 f0       	breq	.+20     	; 0xf0 <wait+0x28>
   dc:	20 e0       	ldi	r18, 0x00	; 0
   de:	30 e0       	ldi	r19, 0x00	; 0
   e0:	0c c0       	rjmp	.+24     	; 0xfa <wait+0x32>
-  e2:	40 91 56 01 	lds	r20, 0x0156
-  e6:	50 91 57 01 	lds	r21, 0x0157
+  e2:	40 91 06 01 	lds	r20, 0x0106
+  e6:	50 91 07 01 	lds	r21, 0x0107
   ea:	41 30       	cpi	r20, 0x01	; 1
   ec:	51 05       	cpc	r21, r1
   ee:	29 f4       	brne	.+10     	; 0xfa <wait+0x32>
-  f0:	10 92 57 01 	sts	0x0157, r1
-  f4:	10 92 56 01 	sts	0x0156, r1
+  f0:	10 92 07 01 	sts	0x0107, r1
+  f4:	10 92 06 01 	sts	0x0106, r1
   f8:	08 95       	ret
   fa:	ef ec       	ldi	r30, 0xCF	; 207
   fc:	f7 e0       	ldi	r31, 0x07	; 7
@@ -196,67 +196,67 @@ Disassembly of section .text:
  120:	9f 93       	push	r25
  122:	98 9b       	sbis	0x13, 0	; 19
  124:	1a c0       	rjmp	.+52     	; 0x15a <__vector_16+0x48>
- 126:	80 91 52 01 	lds	r24, 0x0152
- 12a:	90 91 53 01 	lds	r25, 0x0153
+ 126:	80 91 04 01 	lds	r24, 0x0104
+ 12a:	90 91 05 01 	lds	r25, 0x0105
  12e:	89 2b       	or	r24, r25
  130:	a1 f4       	brne	.+40     	; 0x15a <__vector_16+0x48>
- 132:	80 91 4b 01 	lds	r24, 0x014B
- 136:	90 91 4c 01 	lds	r25, 0x014C
+ 132:	80 91 00 01 	lds	r24, 0x0100
+ 136:	90 91 01 01 	lds	r25, 0x0101
  13a:	88 0f       	add	r24, r24
  13c:	99 1f       	adc	r25, r25
- 13e:	90 93 4c 01 	sts	0x014C, r25
- 142:	80 93 4b 01 	sts	0x014B, r24
+ 13e:	90 93 01 01 	sts	0x0101, r25
+ 142:	80 93 00 01 	sts	0x0100, r24
  146:	81 e0       	ldi	r24, 0x01	; 1
  148:	90 e0       	ldi	r25, 0x00	; 0
- 14a:	90 93 57 01 	sts	0x0157, r25
- 14e:	80 93 56 01 	sts	0x0156, r24
- 152:	90 93 53 01 	sts	0x0153, r25
- 156:	80 93 52 01 	sts	0x0152, r24
+ 14a:	90 93 07 01 	sts	0x0107, r25
+ 14e:	80 93 06 01 	sts	0x0106, r24
+ 152:	90 93 05 01 	sts	0x0105, r25
+ 156:	80 93 04 01 	sts	0x0104, r24
  15a:	99 9b       	sbis	0x13, 1	; 19
  15c:	1d c0       	rjmp	.+58     	; 0x198 <__vector_16+0x86>
- 15e:	80 91 50 01 	lds	r24, 0x0150
- 162:	90 91 51 01 	lds	r25, 0x0151
+ 15e:	80 91 02 01 	lds	r24, 0x0102
+ 162:	90 91 03 01 	lds	r25, 0x0103
  166:	89 2b       	or	r24, r25
  168:	b9 f4       	brne	.+46     	; 0x198 <__vector_16+0x86>
- 16a:	80 91 4b 01 	lds	r24, 0x014B
- 16e:	90 91 4c 01 	lds	r25, 0x014C
+ 16a:	80 91 00 01 	lds	r24, 0x0100
+ 16e:	90 91 01 01 	lds	r25, 0x0101
  172:	99 23       	and	r25, r25
  174:	0c f4       	brge	.+2      	; 0x178 <__vector_16+0x66>
  176:	01 96       	adiw	r24, 0x01	; 1
  178:	95 95       	asr	r25
  17a:	87 95       	ror	r24
- 17c:	90 93 4c 01 	sts	0x014C, r25
- 180:	80 93 4b 01 	sts	0x014B, r24
+ 17c:	90 93 01 01 	sts	0x0101, r25
+ 180:	80 93 00 01 	sts	0x0100, r24
  184:	81 e0       	ldi	r24, 0x01	; 1
  186:	90 e0       	ldi	r25, 0x00	; 0
- 188:	90 93 57 01 	sts	0x0157, r25
- 18c:	80 93 56 01 	sts	0x0156, r24
- 190:	90 93 51 01 	sts	0x0151, r25
- 194:	80 93 50 01 	sts	0x0150, r24
+ 188:	90 93 07 01 	sts	0x0107, r25
+ 18c:	80 93 06 01 	sts	0x0106, r24
+ 190:	90 93 03 01 	sts	0x0103, r25
+ 194:	80 93 02 01 	sts	0x0102, r24
  198:	83 b3       	in	r24, 0x13	; 19
  19a:	81 11       	cpse	r24, r1
  19c:	08 c0       	rjmp	.+16     	; 0x1ae <__vector_16+0x9c>
- 19e:	10 92 53 01 	sts	0x0153, r1
- 1a2:	10 92 52 01 	sts	0x0152, r1
- 1a6:	10 92 51 01 	sts	0x0151, r1
- 1aa:	10 92 50 01 	sts	0x0150, r1
- 1ae:	80 91 4b 01 	lds	r24, 0x014B
- 1b2:	90 91 4c 01 	lds	r25, 0x014C
+ 19e:	10 92 05 01 	sts	0x0105, r1
+ 1a2:	10 92 04 01 	sts	0x0104, r1
+ 1a6:	10 92 03 01 	sts	0x0103, r1
+ 1aa:	10 92 02 01 	sts	0x0102, r1
+ 1ae:	80 91 00 01 	lds	r24, 0x0100
+ 1b2:	90 91 01 01 	lds	r25, 0x0101
  1b6:	84 31       	cpi	r24, 0x14	; 20
  1b8:	91 05       	cpc	r25, r1
  1ba:	3c f4       	brge	.+14     	; 0x1ca <__vector_16+0xb8>
  1bc:	84 e1       	ldi	r24, 0x14	; 20
  1be:	90 e0       	ldi	r25, 0x00	; 0
- 1c0:	90 93 4c 01 	sts	0x014C, r25
- 1c4:	80 93 4b 01 	sts	0x014B, r24
+ 1c0:	90 93 01 01 	sts	0x0101, r25
+ 1c4:	80 93 00 01 	sts	0x0100, r24
  1c8:	09 c0       	rjmp	.+18     	; 0x1dc <__vector_16+0xca>
  1ca:	81 3a       	cpi	r24, 0xA1	; 161
  1cc:	9f 40       	sbci	r25, 0x0F	; 15
  1ce:	34 f0       	brlt	.+12     	; 0x1dc <__vector_16+0xca>
  1d0:	80 ea       	ldi	r24, 0xA0	; 160
  1d2:	9f e0       	ldi	r25, 0x0F	; 15
- 1d4:	90 93 4c 01 	sts	0x014C, r25
- 1d8:	80 93 4b 01 	sts	0x014B, r24
+ 1d4:	90 93 01 01 	sts	0x0101, r25
+ 1d8:	80 93 00 01 	sts	0x0100, r24
  1dc:	9f 91       	pop	r25
  1de:	8f 91       	pop	r24
  1e0:	2f 91       	pop	r18
@@ -266,143 +266,77 @@ Disassembly of section .text:
  1e8:	1f 90       	pop	r1
  1ea:	18 95       	reti
 
-000001ec <opgave5>:
+000001ec <opgave6>:
+	}
 }
 
-void opgave5(void)
+void opgave6(void)
 {
-	//Als een knop ingedrukt wordt, wordt de waarde daarvan de snelheid. Werkt niet met system interrupts, dus je moet de knop soms ingedrukt houden
-	if(PINC != 0 )
- 1ec:	83 b3       	in	r24, 0x13	; 19
- 1ee:	88 23       	and	r24, r24
- 1f0:	31 f0       	breq	.+12     	; 0x1fe <opgave5+0x12>
-	{
-		speed = PINC;
- 1f2:	83 b3       	in	r24, 0x13	; 19
- 1f4:	90 e0       	ldi	r25, 0x00	; 0
- 1f6:	90 93 4e 01 	sts	0x014E, r25
- 1fa:	80 93 4d 01 	sts	0x014D, r24
-	}
+	PORTD = 0b10000000;
+ 1ec:	80 e8       	ldi	r24, 0x80	; 128
+ 1ee:	82 bb       	out	0x12, r24	; 18
+	wait( blink );
+ 1f0:	80 91 00 01 	lds	r24, 0x0100
+ 1f4:	90 91 01 01 	lds	r25, 0x0101
+ 1f8:	67 df       	rcall	.-306    	; 0xc8 <wait>
+	PORTD = 0b00000000;
+ 1fa:	12 ba       	out	0x12, r1	; 18
+	wait( blink );
+ 1fc:	80 91 00 01 	lds	r24, 0x0100
+ 200:	90 91 01 01 	lds	r25, 0x0101
+ 204:	61 cf       	rjmp	.-318    	; 0xc8 <wait>
+ 206:	08 95       	ret
 
-	//Schrijf de data van het huidige patroon naar PORTD
-	PORTD = pattern[count].data;
- 1fe:	80 91 54 01 	lds	r24, 0x0154
- 202:	90 91 55 01 	lds	r25, 0x0155
- 206:	fc 01       	movw	r30, r24
- 208:	ee 0f       	add	r30, r30
- 20a:	ff 1f       	adc	r31, r31
- 20c:	8e 0f       	add	r24, r30
- 20e:	9f 1f       	adc	r25, r31
- 210:	fc 01       	movw	r30, r24
- 212:	e0 50       	subi	r30, 0x00	; 0
- 214:	ff 4f       	sbci	r31, 0xFF	; 255
- 216:	80 81       	ld	r24, Z
- 218:	82 bb       	out	0x12, r24	; 18
-	//Wacht het aantal milliseconde dat in het huidige patroon staat
-	wait(pattern[count].delay * speed);
- 21a:	80 91 54 01 	lds	r24, 0x0154
- 21e:	90 91 55 01 	lds	r25, 0x0155
- 222:	fc 01       	movw	r30, r24
- 224:	ee 0f       	add	r30, r30
- 226:	ff 1f       	adc	r31, r31
- 228:	8e 0f       	add	r24, r30
- 22a:	9f 1f       	adc	r25, r31
- 22c:	fc 01       	movw	r30, r24
- 22e:	e0 50       	subi	r30, 0x00	; 0
- 230:	ff 4f       	sbci	r31, 0xFF	; 255
- 232:	20 91 4d 01 	lds	r18, 0x014D
- 236:	30 91 4e 01 	lds	r19, 0x014E
- 23a:	81 81       	ldd	r24, Z+1	; 0x01
- 23c:	92 81       	ldd	r25, Z+2	; 0x02
- 23e:	ac 01       	movw	r20, r24
- 240:	24 9f       	mul	r18, r20
- 242:	c0 01       	movw	r24, r0
- 244:	25 9f       	mul	r18, r21
- 246:	90 0d       	add	r25, r0
- 248:	34 9f       	mul	r19, r20
- 24a:	90 0d       	add	r25, r0
- 24c:	11 24       	eor	r1, r1
- 24e:	3c df       	rcall	.-392    	; 0xc8 <wait>
-
-	count++; //patroon verder
- 250:	80 91 54 01 	lds	r24, 0x0154
- 254:	90 91 55 01 	lds	r25, 0x0155
- 258:	01 96       	adiw	r24, 0x01	; 1
-
-	//als alle patronen geweest zijn, opnieuw beginnen
-	if(count >= NELEMS(pattern))
- 25a:	89 31       	cpi	r24, 0x19	; 25
- 25c:	91 05       	cpc	r25, r1
- 25e:	28 f4       	brcc	.+10     	; 0x26a <opgave5+0x7e>
-	//Schrijf de data van het huidige patroon naar PORTD
-	PORTD = pattern[count].data;
-	//Wacht het aantal milliseconde dat in het huidige patroon staat
-	wait(pattern[count].delay * speed);
-
-	count++; //patroon verder
- 260:	90 93 55 01 	sts	0x0155, r25
- 264:	80 93 54 01 	sts	0x0154, r24
- 268:	08 95       	ret
-
-	//als alle patronen geweest zijn, opnieuw beginnen
-	if(count >= NELEMS(pattern))
-	{
-		count = 0;
- 26a:	10 92 55 01 	sts	0x0155, r1
- 26e:	10 92 54 01 	sts	0x0154, r1
- 272:	08 95       	ret
-
-00000274 <main>:
+00000208 <main>:
 		}
 }
 
 int main(void)
 {
 	DDRC = 0b00000000; //input
- 274:	14 ba       	out	0x14, r1	; 20
+ 208:	14 ba       	out	0x14, r1	; 20
 	DDRD = 0b11111111; //output
- 276:	8f ef       	ldi	r24, 0xFF	; 255
- 278:	81 bb       	out	0x11, r24	; 17
+ 20a:	8f ef       	ldi	r24, 0xFF	; 255
+ 20c:	81 bb       	out	0x11, r24	; 17
 
 	 // Prescaler
 	 TCCR0 |= (1 << CS01) | (1 << CS00);
- 27a:	83 b7       	in	r24, 0x33	; 51
- 27c:	83 60       	ori	r24, 0x03	; 3
- 27e:	83 bf       	out	0x33, r24	; 51
+ 20e:	83 b7       	in	r24, 0x33	; 51
+ 210:	83 60       	ori	r24, 0x03	; 3
+ 212:	83 bf       	out	0x33, r24	; 51
 	 //Het overflow event aanzetten
 	 TIMSK|=(1<<TOIE0);
- 280:	87 b7       	in	r24, 0x37	; 55
- 282:	81 60       	ori	r24, 0x01	; 1
- 284:	87 bf       	out	0x37, r24	; 55
+ 214:	87 b7       	in	r24, 0x37	; 55
+ 216:	81 60       	ori	r24, 0x01	; 1
+ 218:	87 bf       	out	0x37, r24	; 55
 	 //Counter op waarde 0 zetten
 	 TCNT0=0;
- 286:	12 be       	out	0x32, r1	; 50
+ 21a:	12 be       	out	0x32, r1	; 50
 
 	//Luister naar System interrupts
 	sei();
- 288:	78 94       	sei
+ 21c:	78 94       	sei
 
 	//Alleen voor opgave 4
 	PORTD = 0x1;
- 28a:	81 e0       	ldi	r24, 0x01	; 1
- 28c:	82 bb       	out	0x12, r24	; 18
-	while (1)
+ 21e:	81 e0       	ldi	r24, 0x01	; 1
+ 220:	82 bb       	out	0x12, r24	; 18
 	{
 		//opgave2();
 		//opgave3();
 		//opgave4();
-		opgave5();
- 28e:	ae df       	rcall	.-164    	; 0x1ec <opgave5>
-		//opgave6();
+		//opgave5();
+		opgave6();
+ 222:	e4 df       	rcall	.-56     	; 0x1ec <opgave6>
 
 		//charlieplexing();
 
 		//extraopgave();
 	}
- 290:	fe cf       	rjmp	.-4      	; 0x28e <main+0x1a>
+ 224:	fe cf       	rjmp	.-4      	; 0x222 <main+0x1a>
 
-00000292 <_exit>:
- 292:	f8 94       	cli
+00000226 <_exit>:
+ 226:	f8 94       	cli
 
-00000294 <__stop_program>:
- 294:	ff cf       	rjmp	.-2      	; 0x294 <__stop_program>
+00000228 <__stop_program>:
+ 228:	ff cf       	rjmp	.-2      	; 0x228 <__stop_program>

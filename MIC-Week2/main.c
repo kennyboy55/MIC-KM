@@ -179,7 +179,7 @@ void powerpointOpg(void)
 
 	// Enable global interrupt system
 	//SREG = 0x80;			// Of direct via SREG of via wrapper
-	opdr=0;
+	opdr=0;					// Use of the right interrupt
 	sei();
 	
 
@@ -197,7 +197,7 @@ void opgave2(void)
 	PORTC= 0x1;
 
 	EICRA |= 0x28;		//INT1 en INT2 falling edge 
-	EIMSK |= 0x06;
+	EIMSK |= 0x06;		//Enable INT1 & INT2
 	opdr=1;
 	sei();
 
@@ -229,17 +229,17 @@ void shift(int i)
 
 void opgave3()
 {
-	DDRC = 0x00;
-	DDRD = 0xFF;
+	DDRC = 0x00;	//Alles op input in rij c
+	DDRD = 0xFF;	//Allesj op output in rij d.
 
-	int count = 0;
+	int count = 0;	//teller voor het juiste cijfer op display
 
 	while(1)
 	{
 		wait(150);
 
 		//Button C0 & C1
-		if( (0x03 & PINC) == 0x03)
+		if( (0x03 & PINC) == 0x03)	 
 		{
 			count = 0;
 		}
@@ -254,11 +254,13 @@ void opgave3()
 			count--;
 		}
 
+		// Als getal groter dan 15 dan E. op display
 		if(count > 15)
 		{
 			display(14, 1);
 			count = 16;
 		}
+		// Als getal labger dan 15 dan E. op display
 		else if(count < 0)
 		{
 			display(14, 1);
