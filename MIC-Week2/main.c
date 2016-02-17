@@ -43,7 +43,7 @@ Version :    	DMK, Initial code
 	}
 }
 
-char data[16] = {		//segment display
+char data[16] = { // 7 segment display
 	0b00111111, // 0
 	0b00000110, // 1
 	0b01011011, // 2
@@ -59,7 +59,7 @@ char data[16] = {		//segment display
 	0b00111001, // C
 	0b01011110, // D
 	0b01111001, // E
-	0b01110001 // F
+	0b01110001  // F
 };
 
 //Struct voor een pattroon. Eerste onderdeel is welke ledjes aan moeten staan, tweede hoelang deze dan aan moeten staan
@@ -107,7 +107,7 @@ Version :    	DMK, Initial code
 ISR( INT1_vect )
 { 
 /* 
-short:			ISR INT1
+short:			ISR INT1 / Shift omhoog
 inputs:			
 outputs:	
 notes:			Clear PORTD.5
@@ -123,9 +123,9 @@ Version :    	DMK, Initial code
 	}
 }
 
-ISR( INT2_vect ) //powerpointopg
+ISR( INT2_vect )
 /*
-short:			ISR INT4
+short:			Shift omlaag
 inputs:
 outputs:
 notes:			Clear PORTD.3
@@ -140,7 +140,7 @@ ISR( INT4_vect ) //powerpointopg
 short:			ISR INT4
 inputs:
 outputs:
-notes:			Clear PORTD.3
+notes:			Toggle PORTE.0
 Version :    	DMK, Initial code
 *******************************************************************/
 {
@@ -158,9 +158,9 @@ Version :    	DMK, Initial code
 *******************************************************************/
 {
 	//powerpointOpg();
-	//opgave2();
+	opgave2();
 	//opgave3();
-	opgave4();
+	//opgave4();
 
 	return 1;
 }
@@ -246,30 +246,32 @@ void opgave3()
 		//Button C0
 		else if( (0x01 & PINC) != 0)
 		{
-			count++;
+			count = ((count+1 > 15) ? 16 : count+1);
 		}
 		//Button C1
 		else if( (0x02 & PINC) != 0)
 		{
-			count--;
+			count = ((count-1 < 0) ? -1 : count-1);
 		}
 
-		if(count > 15)
-		{
-			display(14, 1);
-			count = 16;
-		}
-		else if(count < 0)
-		{
-			display(14, 1);
-			count = -1;
-		}
-		else
-			display(count, 0);
+		display(count, 0);
 	}
 }
 void display(int d, int dot)
 {
+	//Digit > 15 || Digit < 0 : display E met .
+	if(d > 15)
+	{
+		d = 14;
+		dot = 1;
+	}
+	else if(d < 0)
+	{
+		d = 14;
+		dot = 1;
+	}
+
+	//Met of zonder dot het getal tekenen
 	if(dot)
 		PORTD = data[d] | 0b10000000;
 	else
