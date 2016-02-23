@@ -16,7 +16,7 @@
  void display_char(unsigned char dat);
  void lcd_command(unsigned char dat);
 
- void init()
+ void lcd_init()
  {
  	DDRC = 0b11111111;
 
@@ -35,7 +35,7 @@
  	lcd_command( 0x06 );
  	// RAM address: 0, first position, line 1
  	_delay_ms(50);
- 	lcd_command( 0x80 );
+ 	clear_display();
 
  	_delay_ms(100);
  }
@@ -61,8 +61,14 @@ void display_text( int line, char *text )
 		display_char( text[count] );
 		count++;
 
-		_delay_ms(1);
+		_delay_ms(2);
 	}
+}
+
+void clear_display()
+{
+	lcd_command(0b00000001);
+	lcd_command(0b10000000);
 }
 
  void set_cursor(int position)
@@ -78,7 +84,7 @@ void display_text( int line, char *text )
 
 	 for (int i=0; i<count; i++) {
 		 lcd_command(data);
-		 _delay_ms(1);
+		 _delay_ms(2);
 	 }
  }
 
@@ -86,15 +92,15 @@ void display_text( int line, char *text )
  {
 	 PORTC = dat & 0xF0; // hoge nibble
 	 PORTC = PORTC | 0x0C; // Enable on (EN = 1, RS=1),
-	 _delay_ms(1); // wait 1 ms
+	 _delay_ms(2); // wait 1 ms
 	 PORTC = 0x04; // Enable off (EN = 0, RS = 1)
 
-	 _delay_ms(1); // wait 1 ms
+	 _delay_ms(2); // wait 1 ms
 
 	 PORTC = (dat & 0x0F) << 4; // lage nibble
 	 PORTC = PORTC | 0x0C; // Enable on (RS=1),
 	 // start (EN=1)
-	 _delay_ms(1); // wait 1 ms
+	 _delay_ms(2); // wait 1 ms
 	 PORTC = 0x00; // stop
 	 // (EN=0 RS=0)
  }
@@ -104,15 +110,15 @@ void display_text( int line, char *text )
 	 PORTC = dat & 0xF0; // hoge nibble
 	 PORTC = PORTC | 0x08; // data (RS=0),
 	 // start (EN=1)
-	 _delay_ms(1); // wait 1 ms
+	 _delay_ms(2); // wait 1 ms
 	 PORTC = 0x04; // stop (EN = 0)
 
-	 _delay_ms(1); // wait 1 ms
+	 _delay_ms(2); // wait 1 ms
 
 	 PORTC = (dat & 0x0F) << 4; // lage nibble
 	 PORTC = PORTC | 0x08; // data (RS=0),
 	 // start (EN=1)
-	 _delay_ms(1); // wait 1 ms
+	 _delay_ms(2); // wait 1 ms
 	 PORTC = 0x00; // stop
 	 // (EN=0 RS=0)
  }
