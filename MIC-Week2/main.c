@@ -158,9 +158,9 @@ Version :    	DMK, Initial code
 *******************************************************************/
 {
 	//powerpointOpg();
-	opgave2();
+	//opgave2();
 	//opgave3();
-	//opgave4();
+	opgave4();
 
 	return 1;
 }
