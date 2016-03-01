@@ -92,71 +92,11 @@ int main( void )
 		setRed(ADCH);					// Show MSB (bit 9:2) of ADC
 		wait(100);						// every 50 ms (busy waiting)
 		//opgaveextra();
-		//testColor();
 		alleKleuren();
 	}
 }
 
 int alleKleuren(void)
-{
-	DDRB = 0xFF;					// set PORTB for compare output
-	timer1Init();
-	wait(100);
-
-	while (1)
-	{
-		int delta = 1;
-		int delta1 = 1;
-		int delta2 = 1;
-		setRed (0);
-		setBlue(0);
-		setGreen(0);
-
-	for (int red = 0; red<=255; red+=delta)
-	{
-		setRed( red );				// 8-bits PWM on pin OCR1a
-		delta += 2;					// progressive steps up
-		wait(10);					// delay of 100 ms (busy waiting)
-
-		for (int green = 0; green<=255; green+=delta1)
-		{
-			setGreen( green );				// 8-bits PWM on pin OCR1a
-			delta += 2;					// progressive steps up
-			wait(10);					// delay of 100 ms (busy waiting)
-
-			for (int blue = 0; blue<=255; blue+=delta2)
-			{
-				setBlue( blue );				// 8-bits PWM on pin OCR1a
-				delta += 2;					// progressive steps up
-				wait(10);					// delay of 100 ms (busy waiting)
-			}
-		}
-			
-	}
-
-	for (int red = 255; red>=0; red-=delta)
-	{
-		setRed( red );				// 8-bits PWM on pin OCR1a
-		delta -= 2;					// progressive steps down
-		wait(100);					// delay of 100 ms (busy waiting)
-			
-		for (int green = 255; green<=0; green-=delta1)
-		{
-			setRed( green );				// 8-bits PWM on pin OCR1a
-			delta -= 2;					// progressive steps down
-			wait(100);				// delay of 100 ms (busy waiting)
-
-			for (int blue = 255; blue<=0; blue-=delta2)
-			{
-				setRed( blue );				// 8-bits PWM on pin OCR1a
-				delta -= 2;					// progressive steps down
-				wait(100);				// delay of 100 ms (busy waiting)
-			}
-		}		
-	}
-	}
-}
-int testColor(void)
 {
 	DDRB = 0xFF;					// set PORTB for compare output
 	timer1Init();
@@ -212,12 +152,6 @@ int testColor(void)
 		delta -= 2;					// progressive steps up
 		wait(10);					// delay of 100 ms (busy waiting)
 	}
-	//setRed( 0 );
-	//delta = 1;
-	//setBlue(0);
-	//delta1 = 1;
-	//setGreen(0);
-	//delta2 = 2;
 	}
 
 }
