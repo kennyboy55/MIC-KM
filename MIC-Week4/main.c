@@ -154,6 +154,7 @@ int alleKleuren(void)
 			}
 		}		
 	}
+	}
 }
 int testColor(void)
 {
