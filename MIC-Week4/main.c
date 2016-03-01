@@ -87,12 +87,23 @@ int main( void )
 
 	while (1)
 	{
-		ADCSRA |= BIT(6);				// Start ADC
+		//ADCSRA |= BIT(6);				// Start ADC
 		while ( ADCSRA & BIT(6) ) ;		// Wait for completion
-		setRed(ADCH);					// Show MSB (bit 9:2) of ADC
+		setRed(ADCH);
+		//setBlue(ADCH);
+		//setGreen(ADCH);					
 		wait(100);						// every 50 ms (busy waiting)
+		//alleKleuren();
 		//opgaveextra();
-		alleKleuren();
+		setWithButton();
+	}
+}
+
+int setWithButton(void)
+{
+	if( (0b00000001 & PINC) != 0)
+	{
+		ADCSRA |= BIT(6);
 	}
 }
 
@@ -101,12 +112,14 @@ int alleKleuren(void)
 	DDRB = 0xFF;					// set PORTB for compare output
 	timer1Init();
 	wait(100);
+	;
 
 	while (1)
 	{
-		int delta = 1;
+		
 		int delta1 = 1;
 		int delta2 = 1;
+		int delta = 1;
 		setRed (0);
 		setBlue(0);
 		setGreen(0);
@@ -145,6 +158,13 @@ int alleKleuren(void)
 		delta1 -= 2;					// progressive steps up
 		wait(100);					// delay of 100 ms (busy waiting)
 	}
+
+		for (int red = 0; red<=255; red+=delta)
+		{
+			setRed( red );				// 8-bits PWM on pin OCR1a
+			delta += 2;					// progressive steps up
+			wait(100);					// delay of 100 ms (busy waiting)
+		}
 	
 	for (int blue = 255; blue>=0; blue-=delta2)
 	{
@@ -152,6 +172,7 @@ int alleKleuren(void)
 		delta2 -= 2;					// progressive steps up
 		wait(100);					// delay of 100 ms (busy waiting)
 	}
+
 	}
 
 }
