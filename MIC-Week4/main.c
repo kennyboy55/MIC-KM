@@ -79,28 +79,55 @@ void adcInitFree( void )
 
 void adcInitPoll( void )
 {
-	ADMUX = 0b01100001;			// AREF=2,56 V, result left adjusted, channel1 at pin PF1
+	ADMUX = 0b11100001;			// AREF=2,56 V, result left adjusted, channel1 at pin PF1
 	ADCSRA = 0b10000110;		// ADC-enable, no interrupt, no free running, division by 64
 }
 
+
 int main( void )
+{
+
+	//OpgaveB22();
+	OpgaveB23();
+
+	//OpgaveB31();
+
+	//OpgaveB32();
+	//OpgaveB33();
+
+}
+
+
+int OpgaveB31( void )
+{
+
+	DDRF = 0x00;
+	DDRA = 0xFF;
+	DDRB = 0xFF;
+
+	adcInitFree();
+
+	while(1)
+	{
+		PORTA = ADCH;
+		PORTB = ADCL;
+		wait(10);
+	}
+
+}
+
+int OpgaveB33( void )
 {
 	DDRF = 0x00;
 	adcInitPoll();
 	lcd_init();
 
-
-	unsigned char data;
-
-	char l1[8];
+	char l1[6];
 
 	while(1)
 	{
 		ADCSRA |= BIT(6);				// Start ADC
 		while ( ADCSRA & BIT(6) ) ;		// Wait for completion
-
-		data = ADCH;
-		data = (data<<2) | ADCL;
 
 		sprintf(l1, "%d", ADCH);
 		display_text(0, l1);
@@ -109,12 +136,11 @@ int main( void )
 
 		clear_display();
 	}
-
 }
 
 
 // Main program: Counting on T1
-int somemain( void )
+int OpgaveB32( void )
 {
 	DDRB = 0xFF;	
 	DDRF = 0x00;					// set PORTF for input (ADC)
@@ -144,22 +170,18 @@ int setWithButton(void)
 	}
 }
 
-int alleKleuren(void)
+int OpgaveB23(void)
 {
 	DDRB = 0xFF;					// set PORTB for compare output
 	timer1Init();
 	wait(100);
-	;
 
-	while (1)
-	{
-		
-		int delta1 = 1;
-		int delta2 = 1;
-		int delta = 1;
-		setRed (0);
-		setBlue(0);
-		setGreen(0);
+	int delta1 = 1;
+	int delta2 = 1;
+	int delta = 1;
+	setRed (0);
+	setBlue(0);
+	setGreen(0);
 
 	for (int red = 0; red<=255; red+=delta)
 	{
@@ -168,33 +190,36 @@ int alleKleuren(void)
 		wait(100);					// delay of 100 ms (busy waiting)
 	}
 
-	for (int green = 0; green<=255; green+=delta1)
+	while (1)
 	{
-		setGreen( green );				// 8-bits PWM on pin OCR1a
-		delta1 += 2;					// progressive steps up
-		wait(100);					// delay of 100 ms (busy waiting)
-	}
 
-	for (int blue = 0; blue<=255; blue+=delta2)
-	{
-		setBlue( blue );				// 8-bits PWM on pin OCR1a
-		delta2 += 2;					// progressive steps up
-		wait(100);					// delay of 100 ms (busy waiting)
-	}
+		for (int green = 0; green<=255; green+=delta1)
+		{
+			setGreen( green );				// 8-bits PWM on pin OCR1a
+			delta1 += 2;					// progressive steps up
+			wait(100);					// delay of 100 ms (busy waiting)
+		}
 
-	for (int red = 255; red>=0; red-=delta)
-	{
-		setRed( red );				// 8-bits PWM on pin OCR1a
-		delta -= 2;					// progressive steps down
-		wait(100);					// delay of 100 ms (busy waiting)
-	}
+		for (int blue = 0; blue<=255; blue+=delta2)
+		{
+			setBlue( blue );				// 8-bits PWM on pin OCR1a
+			delta2 += 2;					// progressive steps up
+			wait(100);					// delay of 100 ms (busy waiting)
+		}
 
-	for (int green = 255; green>=0; green-=delta1)
-	{
-		setGreen( green );				// 8-bits PWM on pin OCR1a
-		delta1 -= 2;					// progressive steps up
-		wait(100);					// delay of 100 ms (busy waiting)
-	}
+		for (int red = 255; red>=0; red-=delta)
+		{
+			setRed( red );				// 8-bits PWM on pin OCR1a
+			delta -= 2;					// progressive steps down
+			wait(100);					// delay of 100 ms (busy waiting)
+		}
+
+		for (int green = 255; green>=0; green-=delta1)
+		{
+			setGreen( green );				// 8-bits PWM on pin OCR1a
+			delta1 -= 2;					// progressive steps up
+			wait(100);					// delay of 100 ms (busy waiting)
+		}
 
 		for (int red = 0; red<=255; red+=delta)
 		{
@@ -203,18 +228,18 @@ int alleKleuren(void)
 			wait(100);					// delay of 100 ms (busy waiting)
 		}
 	
-	for (int blue = 255; blue>=0; blue-=delta2)
-	{
-		setBlue( blue );				// 8-bits PWM on pin OCR1a
-		delta2 -= 2;					// progressive steps up
-		wait(100);					// delay of 100 ms (busy waiting)
-	}
+		for (int blue = 255; blue>=0; blue-=delta2)
+		{
+			setBlue( blue );				// 8-bits PWM on pin OCR1a
+			delta2 -= 2;					// progressive steps up
+			wait(100);					// delay of 100 ms (busy waiting)
+		}
 
 	}
 
 }
 // Main program: Counting on T1
-int opgaveextra( void )
+int OpgaveB22( void )
 {
 	DDRB = 0xFF;					// set PORTB for compare output 
 	timer1Init();
