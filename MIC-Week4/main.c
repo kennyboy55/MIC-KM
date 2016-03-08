@@ -23,6 +23,8 @@
 #include <util/delay.h>
 #include <avr/interrupt.h>
 
+#include "lcd.h"
+
 #define BIT(x)			(1 << (x))
 
 unsigned int sCount=0, minutes=0, hours=0;
@@ -69,20 +71,55 @@ void setBlue( unsigned char blue )
 // void setBlue( unsigned char blue)
 
 // Initialize ADC:
-void adcInit( void )
+void adcInitFree( void )
 {
-	ADMUX = 0b11100001;			// AREF=2,56 V, result left adjusted, channel1 at pin PF1
+	ADMUX = 0b01100001;			// AREF=VCC, result left adjusted, channel1 at pin PF1
+	ADCSRA = 0b11100110;		// ADC-enable, no interrupt, start, free running, division by 64
+}
+
+void adcInitPoll( void )
+{
+	ADMUX = 0b01100001;			// AREF=2,56 V, result left adjusted, channel1 at pin PF1
 	ADCSRA = 0b10000110;		// ADC-enable, no interrupt, no free running, division by 64
+}
+
+int main( void )
+{
+	DDRF = 0x00;
+	adcInitPoll();
+	lcd_init();
+
+
+	unsigned char data;
+
+	char l1[8];
+
+	while(1)
+	{
+		ADCSRA |= BIT(6);				// Start ADC
+		while ( ADCSRA & BIT(6) ) ;		// Wait for completion
+
+		data = ADCH;
+		data = (data<<2) | ADCL;
+
+		sprintf(l1, "%d", ADCH);
+		display_text(0, l1);
+
+		wait(3000);
+
+		clear_display();
+	}
+
 }
 
 
 // Main program: Counting on T1
-int main( void )
+int somemain( void )
 {
 	DDRB = 0xFF;	
 	DDRF = 0x00;					// set PORTF for input (ADC)
 	DDRA = 0xFF;					// set PORTA for output
-	adcInit();						// initialize ADC
+	adcInitPoll();						// initialize ADC
 	timer1Init();
 
 	while (1)
