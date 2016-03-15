@@ -40,7 +40,7 @@
  	_delay_ms(100);
  }
 
-void display_text( int line, char *text )
+void display_text( int line, char *text, int start )
 {
 	// eerst de eerste 8 karakters = regel 1
 
@@ -55,13 +55,13 @@ void display_text( int line, char *text )
 		lcd_command(0x80);
 	}
 
-	int count = 0;
+	int count = start;
 
 	while (text[count] != '\0') {
 		display_char( text[count] );
 		count++;
 
-		_delay_ms(2);
+		_delay_ms(1);
 	}
 }
 
@@ -92,15 +92,15 @@ void clear_display()
  {
 	 PORTC = dat & 0xF0; // hoge nibble
 	 PORTC = PORTC | 0x0C; // Enable on (EN = 1, RS=1),
-	 _delay_ms(2); // wait 1 ms
+	 _delay_ms(1); // wait 1 ms
 	 PORTC = 0x04; // Enable off (EN = 0, RS = 1)
 
-	 _delay_ms(2); // wait 1 ms
+	 _delay_ms(1); // wait 1 ms
 
 	 PORTC = (dat & 0x0F) << 4; // lage nibble
 	 PORTC = PORTC | 0x0C; // Enable on (RS=1),
 	 // start (EN=1)
-	 _delay_ms(2); // wait 1 ms
+	 _delay_ms(1); // wait 1 ms
 	 PORTC = 0x00; // stop
 	 // (EN=0 RS=0)
  }

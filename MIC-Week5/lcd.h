@@ -10,7 +10,7 @@
 #define LCD_H_
 
 void lcd_init();
-void display_text(int line, char *str);
+void display_text(int line, char *str, int);
 void display_char(unsigned char d);
 void set_cursor(int position);
 void shift_display(int left, int count);

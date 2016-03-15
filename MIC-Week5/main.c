@@ -41,18 +41,16 @@ int main( void )
 
 	wait(100);
 
-	display_text(1, "Test display");
-
 	wait(100);
 
 	while (1)
 	{
-		wait(50);							// every 50 ms (busy waiting)
-		PORTB ^= BIT(7);					// toggle bit 7 for testing
+		wait(150);							// every 50 ms (busy waiting)
 
 		uart0_receiveString( buffer );		// receive string from uart
 		
 		// write string to LCD display
-		display_text(0, buffer);
+		clear_display();
+		display_text(0, buffer, 3);
 	}
 }
