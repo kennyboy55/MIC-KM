@@ -25,7 +25,7 @@
 #define LF			0x0a					// ascii code for Line Feed
 #define CR			0x0d					// ascii code for Carriage Return
 #define BIT(x)		(1 << (x))
-#define UART0_BAUD	2400					// Baud rate USART0
+#define UART0_BAUD	9600					// Baud rate USART0
 #define MYUBRR		F_CPU/16/UART0_BAUD - 1	// My USART Baud Rate Register
 
 void usart0_init( void )	;				// initialize USART0 - receive/transmit

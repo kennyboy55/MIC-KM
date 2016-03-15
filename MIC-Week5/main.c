@@ -28,18 +28,40 @@ void wait( int ms )
 	}
 }
 
-
-// send/receive uart - dB-meter
 int main( void )
 {
+	opgaveb1();
+	//opgaveb2();
+
+	return 0;
+}
+
+
+// send/receive uart - dB-meter
+int opgaveb1( void )
+{
+	usart0_init();							// initialize USART0
+	usart0_start();
+
+	while (1)
+	{
+		wait(50);							// every 50 ms (busy waiting)
+
+		char c = uart0_receiveChar();		// receive string from uart
+		uart0_sendChar(c);
+
+		//uart0_sendChar('*');
+	}
+}
+
+// send/receive uart - dB-meter
+int opgaveb2( void )
+{
 	char buffer[16];						// declare string buffer 
-	DDRB = 0xFF;							// set PORTB for output
 
 	lcd_init();								// initialize LCD-display
 	usart0_init();							// initialize USART0
 	usart0_start();
-
-	wait(100);
 
 	wait(100);
 
