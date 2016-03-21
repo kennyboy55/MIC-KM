@@ -39,6 +39,7 @@ SUBDIRS :=
 C_SRCS +=  \
 ../lcd.c \
 ../main.c \
+../spi.c \
 ../uart0.c
 
 
@@ -51,21 +52,25 @@ ASM_SRCS +=
 OBJS +=  \
 lcd.o \
 main.o \
+spi.o \
 uart0.o
 
 OBJS_AS_ARGS +=  \
 lcd.o \
 main.o \
+spi.o \
 uart0.o
 
 C_DEPS +=  \
 lcd.d \
 main.d \
+spi.d \
 uart0.d
 
 C_DEPS_AS_ARGS +=  \
 lcd.d \
 main.d \
+spi.d \
 uart0.d
 
 OUTPUT_FILE_PATH +=MIC-Week5.elf
@@ -82,6 +87,8 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
 
 
 

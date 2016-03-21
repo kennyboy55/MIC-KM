@@ -6,5 +6,7 @@ lcd.c
 
 main.c
 
+spi.c
+
 uart0.c
 
