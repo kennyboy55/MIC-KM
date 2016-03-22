@@ -183,6 +183,10 @@ int test2(void)
 	spi_masterInit(); // Initialize spi module
 	displayDriverInit(); // Initialize display chip
 
+	int intsy = 0;
+	int dir = 0;
+	int factor = 0;
+
 	for(int i=-999; i<=9999; i++)
 	{
 		writeLedDisplay(i);
@@ -193,7 +197,25 @@ int test2(void)
 
 		if(i > 150 && i < 250)
 			wait(75);
+
+		if(dir)
+			intsy++;
+		else
+			intsy--;
+
+		if(intsy < 0x06)
+		{
+			intsy = 0x06;
+			dir = 1;
+		}
+		else if(intsy > 0x0F)
+		{
+			intsy = 0x0F;
+			dir = 0;
+		}
+
+		spi_intensity(intsy);
 	}
 
-
+	return 1;
 }

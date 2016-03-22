@@ -247,7 +247,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x272
+.text           0x00000000      0x328
  *(.vectors)
  .vectors       0x00000000       0x8c C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.0.91/gcc/dev/atmega128/avr51/crtatmega128.o
                 0x00000000                __vector_default
@@ -339,43 +339,46 @@ END GROUP
  *(.text.*)
  .text.wait     0x0000009e       0x22 main.o
                 0x0000009e                wait
- .text.test2    0x000000c0       0x5c main.o
+ .text.test2    0x000000c0       0xe6 main.o
                 0x000000c0                test2
- .text.main     0x0000011c        0x8 main.o
-                0x0000011c                main
+ .text.main     0x000001a6        0x8 main.o
+                0x000001a6                main
  .text.spi_masterInit
-                0x00000124        0xe spi.o
-                0x00000124                spi_masterInit
+                0x000001ae        0xe spi.o
+                0x000001ae                spi_masterInit
  .text.spi_write
-                0x00000132        0x8 spi.o
-                0x00000132                spi_write
+                0x000001bc        0x8 spi.o
+                0x000001bc                spi_write
  .text.spi_slaveSelect
-                0x0000013a       0x18 spi.o
-                0x0000013a                spi_slaveSelect
+                0x000001c4       0x18 spi.o
+                0x000001c4                spi_slaveSelect
  .text.spi_slaveDeSelect
-                0x00000152       0x16 spi.o
-                0x00000152                spi_slaveDeSelect
+                0x000001dc       0x16 spi.o
+                0x000001dc                spi_slaveDeSelect
  .text.displayDriverInit
-                0x00000168       0x42 spi.o
-                0x00000168                displayDriverInit
+                0x000001f2       0x42 spi.o
+                0x000001f2                displayDriverInit
+ .text.spi_intensity
+                0x00000234       0x2c spi.o
+                0x00000234                spi_intensity
  .text.spi_writeWord
-                0x000001aa       0x1e spi.o
-                0x000001aa                spi_writeWord
+                0x00000260       0x1e spi.o
+                0x00000260                spi_writeWord
  .text.writeLedDisplay
-                0x000001c8       0x58 spi.o
-                0x000001c8                writeLedDisplay
+                0x0000027e       0x58 spi.o
+                0x0000027e                writeLedDisplay
  .text.libgcc.div
-                0x00000220       0x26 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr51\libgcc.a(_divmodhi4.o)
-                0x00000220                _div
-                0x00000220                __divmodhi4
+                0x000002d6       0x26 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr51\libgcc.a(_divmodhi4.o)
+                0x000002d6                _div
+                0x000002d6                __divmodhi4
  .text.libgcc.div
-                0x00000246       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr51\libgcc.a(_udivmodhi4.o)
-                0x00000246                __udivmodhi4
-                0x0000026e                . = ALIGN (0x2)
+                0x000002fc       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr51\libgcc.a(_udivmodhi4.o)
+                0x000002fc                __udivmodhi4
+                0x00000324                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x0000026e        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr51\libgcc.a(_exit.o)
-                0x0000026e                _exit
-                0x0000026e                exit
+ .fini9         0x00000324        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr51\libgcc.a(_exit.o)
+                0x00000324                _exit
+                0x00000324                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -394,11 +397,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x0000026e        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr51\libgcc.a(_exit.o)
+ .fini0         0x00000324        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr51\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000272                _etext = .
+                0x00000328                _etext = .
 
-.data           0x00800100        0x0 load address 0x00000272
+.data           0x00800100        0x0 load address 0x00000328
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -415,8 +418,8 @@ END GROUP
  *(.bss*)
  *(COMMON)
                 0x00800100                PROVIDE (__bss_end, .)
-                0x00000272                __data_load_start = LOADADDR (.data)
-                0x00000272                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00000328                __data_load_start = LOADADDR (.data)
+                0x00000328                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800100        0x0
                 0x00800100                PROVIDE (__noinit_start, .)
@@ -488,47 +491,47 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000       0xc0
+.debug_aranges  0x00000000       0xc8
  *(.debug_aranges)
  .debug_aranges
                 0x00000000       0x58 main.o
  .debug_aranges
-                0x00000058       0x68 spi.o
+                0x00000058       0x70 spi.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0xcbd
+.debug_info     0x00000000      0xd78
  *(.debug_info .gnu.linkonce.wi.*)
- .debug_info    0x00000000      0x835 main.o
- .debug_info    0x00000835      0x488 spi.o
+ .debug_info    0x00000000      0x888 main.o
+ .debug_info    0x00000888      0x4f0 spi.o
 
-.debug_abbrev   0x00000000      0x327
+.debug_abbrev   0x00000000      0x359
  *(.debug_abbrev)
- .debug_abbrev  0x00000000      0x1ed main.o
- .debug_abbrev  0x000001ed      0x13a spi.o
+ .debug_abbrev  0x00000000      0x214 main.o
+ .debug_abbrev  0x00000214      0x145 spi.o
 
-.debug_line     0x00000000      0x66f
+.debug_line     0x00000000      0x702
  *(.debug_line .debug_line.* .debug_line_end)
- .debug_line    0x00000000      0x3f5 main.o
- .debug_line    0x000003f5      0x27a spi.o
+ .debug_line    0x00000000      0x459 main.o
+ .debug_line    0x00000459      0x2a9 spi.o
 
-.debug_frame    0x00000000      0x190
+.debug_frame    0x00000000      0x1e8
  *(.debug_frame)
- .debug_frame   0x00000000       0xc4 main.o
- .debug_frame   0x000000c4       0xcc spi.o
+ .debug_frame   0x00000000      0x100 main.o
+ .debug_frame   0x00000100       0xe8 spi.o
 
-.debug_str      0x00000000      0x2e3
+.debug_str      0x00000000      0x2fe
  *(.debug_str)
- .debug_str     0x00000000      0x28a main.o
-                                0x2c3 (size before relaxing)
- .debug_str     0x0000028a       0x59 spi.o
-                                0x20a (size before relaxing)
+ .debug_str     0x00000000      0x2a5 main.o
+                                0x2de (size before relaxing)
+ .debug_str     0x000002a5       0x59 spi.o
+                                0x222 (size before relaxing)
 
-.debug_loc      0x00000000      0x43c
+.debug_loc      0x00000000      0x5d2
  *(.debug_loc)
- .debug_loc     0x00000000      0x235 main.o
- .debug_loc     0x00000235      0x207 spi.o
+ .debug_loc     0x00000000      0x369 main.o
+ .debug_loc     0x00000369      0x269 spi.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -548,10 +551,10 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000       0xa0
+.debug_ranges   0x00000000       0xc0
  *(.debug_ranges)
- .debug_ranges  0x00000000       0x48 main.o
- .debug_ranges  0x00000048       0x58 spi.o
+ .debug_ranges  0x00000000       0x60 main.o
+ .debug_ranges  0x00000060       0x60 spi.o
 
 .debug_macro
  *(.debug_macro)

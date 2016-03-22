@@ -86,6 +86,20 @@ void displayOn()
 	spi_slaveDeSelect(0); // Deselect display chip
 }
 
+void spi_intensity(int intensity)
+{
+	if(intensity < 0)
+		intensity = 0;
+
+	if(intensity > 0x0F)
+		intensity = 0x0F;
+
+	spi_slaveSelect(0); // Select dispaly chip
+	spi_write(0x0A); // Register 0A: Intensity
+	spi_write(intensity); // -> Level 4 (in range [1..F])
+	spi_slaveDeSelect(0); // Deselect display chip
+}
+
 // Set display off ('shut down')
 void displayOff()
 {

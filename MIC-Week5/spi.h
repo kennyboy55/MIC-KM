@@ -35,6 +35,7 @@ void spi_write( unsigned char );
 char spi_writeRead( unsigned char );
 void spi_slaveSelect(unsigned char);
 void spi_slaveDeSelect(unsigned char);
+void spi_intensity(int);
 void displayDriverInit();
 void displayOn();
 void displayOff();
