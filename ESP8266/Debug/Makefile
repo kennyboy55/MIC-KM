@@ -37,10 +37,10 @@ SUBDIRS :=
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
+../esp.c \
 ../lcd.c \
 ../main.c \
-../spi.c \
-../uart0.c
+../uart.c
 
 
 PREPROCESSING_SRCS += 
@@ -50,32 +50,32 @@ ASM_SRCS +=
 
 
 OBJS +=  \
+esp.o \
 lcd.o \
 main.o \
-spi.o \
-uart0.o
+uart.o
 
 OBJS_AS_ARGS +=  \
+esp.o \
 lcd.o \
 main.o \
-spi.o \
-uart0.o
+uart.o
 
 C_DEPS +=  \
+esp.d \
 lcd.d \
 main.d \
-spi.d \
-uart0.d
+uart.d
 
 C_DEPS_AS_ARGS +=  \
+esp.d \
 lcd.d \
 main.d \
-spi.d \
-uart0.d
+uart.d
 
-OUTPUT_FILE_PATH +=MIC-Week5.elf
+OUTPUT_FILE_PATH +=ESP8266.elf
 
-OUTPUT_FILE_PATH_AS_ARGS +=MIC-Week5.elf
+OUTPUT_FILE_PATH_AS_ARGS +=ESP8266.elf
 
 ADDITIONAL_DEPENDENCIES:=
 
@@ -128,13 +128,13 @@ all: $(OUTPUT_FILE_PATH) $(ADDITIONAL_DEPENDENCIES)
 $(OUTPUT_FILE_PATH): $(OBJS) $(USER_OBJS) $(OUTPUT_FILE_DEP) $(LIB_DEP) $(LINKER_SCRIPT_DEP)
 	@echo Building target: $@
 	@echo Invoking: AVR/GNU Linker : 4.9.2
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE) -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS) -Wl,-Map="MIC-Week5.map" -Wl,--start-group -Wl,-lm  -Wl,--end-group -Wl,--gc-sections -mrelax -mmcu=atmega128 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\ATmega_DFP\1.0.91\gcc\dev\atmega128"  
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE) -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS) -Wl,-Map="ESP8266.map" -Wl,--start-group -Wl,-lm  -Wl,--end-group -Wl,--gc-sections -mrelax -mmcu=atmega128 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\ATmega_DFP\1.0.91\gcc\dev\atmega128"  
 	@echo Finished building target: $@
-	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O ihex -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures  "MIC-Week5.elf" "MIC-Week5.hex"
-	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -j .eeprom  --set-section-flags=.eeprom=alloc,load --change-section-lma .eeprom=0  --no-change-warnings -O ihex "MIC-Week5.elf" "MIC-Week5.eep" || exit 0
-	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objdump.exe" -h -S "MIC-Week5.elf" > "MIC-Week5.lss"
-	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O srec -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures "MIC-Week5.elf" "MIC-Week5.srec"
-	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-size.exe" "MIC-Week5.elf"
+	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O ihex -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures  "ESP8266.elf" "ESP8266.hex"
+	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -j .eeprom  --set-section-flags=.eeprom=alloc,load --change-section-lma .eeprom=0  --no-change-warnings -O ihex "ESP8266.elf" "ESP8266.eep" || exit 0
+	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objdump.exe" -h -S "ESP8266.elf" > "ESP8266.lss"
+	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O srec -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures "ESP8266.elf" "ESP8266.srec"
+	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-size.exe" "ESP8266.elf"
 	
 	
 
@@ -146,5 +146,5 @@ $(OUTPUT_FILE_PATH): $(OBJS) $(USER_OBJS) $(OUTPUT_FILE_DEP) $(LIB_DEP) $(LINKER
 clean:
 	-$(RM) $(OBJS_AS_ARGS) $(EXECUTABLES)  
 	-$(RM) $(C_DEPS_AS_ARGS)   
-	rm -rf "MIC-Week5.elf" "MIC-Week5.a" "MIC-Week5.hex" "MIC-Week5.lss" "MIC-Week5.eep" "MIC-Week5.map" "MIC-Week5.srec" "MIC-Week5.usersignatures"
+	rm -rf "ESP8266.elf" "ESP8266.a" "ESP8266.hex" "ESP8266.lss" "ESP8266.eep" "ESP8266.map" "ESP8266.srec" "ESP8266.usersignatures"
 	

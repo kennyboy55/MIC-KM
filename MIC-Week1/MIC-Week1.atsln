@@ -15,6 +15,8 @@ Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "MIC-Week5", "..\MIC-Week5\M
 EndProject
 Project("{18226A42-8477-4023-8AD2-40C49DA407C9}") = "MIC-Week6", "..\MIC-Week6\MIC-Week6.asmproj", "{59B1D629-9DCC-43ED-A0FD-8AB0E4D622AB}"
 EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "ESP8266", "..\ESP8266\ESP8266.cproj", "{481EA0CF-F80C-407F-B02C-90D282175A00}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|AVR = Debug|AVR
@@ -45,6 +47,10 @@ Global
 		{59B1D629-9DCC-43ED-A0FD-8AB0E4D622AB}.Debug|AVR.Build.0 = Debug|AVR
 		{59B1D629-9DCC-43ED-A0FD-8AB0E4D622AB}.Release|AVR.ActiveCfg = Release|AVR
 		{59B1D629-9DCC-43ED-A0FD-8AB0E4D622AB}.Release|AVR.Build.0 = Release|AVR
+		{481EA0CF-F80C-407F-B02C-90D282175A00}.Debug|AVR.ActiveCfg = Debug|AVR
+		{481EA0CF-F80C-407F-B02C-90D282175A00}.Debug|AVR.Build.0 = Debug|AVR
+		{481EA0CF-F80C-407F-B02C-90D282175A00}.Release|AVR.ActiveCfg = Release|AVR
+		{481EA0CF-F80C-407F-B02C-90D282175A00}.Release|AVR.Build.0 = Release|AVR
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

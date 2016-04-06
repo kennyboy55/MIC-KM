@@ -31,14 +31,14 @@ void wait( int ms )
 
 int main( void )
 {
-	//opgaveb1();
+	opgaveb1();
 	//opgaveb2();
 
 	//opgaveb3();
 	//opgaveb4();
 
 	//test();
-	test2();
+	//test2();
 	return 0;
 }
 
@@ -46,6 +46,8 @@ int main( void )
 // send/receive uart - dB-meter
 int opgaveb1( void )
 {
+	DDRD = 0xFF;
+
 	usart0_init();							// initialize USART0
 	usart0_start();
 
@@ -53,13 +55,15 @@ int opgaveb1( void )
 	{
 		wait(50);							// every 50 ms (busy waiting)
 
-		char c = uart0_receiveChar();		// receive string from uart
+		//char c = uart0_receiveChar();		// receive string from uart
 
-		if(c >= 'a' && c <= 'z'){
-			c = ('A' + c - 'a');
-		}
+		//if(c >= 'a' && c <= 'z'){
+		//	c = ('A' + c - 'a');
+		//}
 
-		uart0_sendChar(c);
+		PORTD ^= 0x80;
+
+		uart0_sendChar('*');
 
 		//uart0_sendChar('*');
 	}
